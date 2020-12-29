@@ -1,2 +1,2 @@
 # Novelica
-*~*~Currently in MVP~*~*
+Currently in MVP.
