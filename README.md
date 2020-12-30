@@ -11,7 +11,7 @@ Novelica/
  frontend/
   public/
   src/
- (hidden) novelica/
+ novelica/  (HIDDEN)
 ```
 
 ## Overview
