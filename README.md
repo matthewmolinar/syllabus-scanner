@@ -49,6 +49,12 @@ npm run build
 ```
 
 This step will take about 1-2 minutes, so sit back and relax. This is usually what it takes to make the build for the live repo.
+Okay, now once it's done, you'll want to move the newly created ```build``` directory made in the frontend to the backend.
+
+```
+mv build ../backend
+```
+Alright. Almost there.
 
 
  
