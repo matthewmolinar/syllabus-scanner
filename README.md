@@ -1,5 +1,6 @@
 # Novelica Technologies
 ## Walkthrough by Matthew
+## PART ONE:
 The first thing you’ll want to do is clone the repo onto your own machine. Don’t worry about initializing the virtualenv, since it's already installed. You just need to activate it. 
 
 #### File Structure at a glance
