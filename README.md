@@ -15,7 +15,7 @@ Novelica/
 ```
 
 ## Overview
-Now, before we actually run the app, there are some things we need to discuss. For instance, the actual build running on (novelicatech.com) is not in this repository. This was achieved by putting the path to the folder holding the live build in the .gitignore file. These kind of files (.gitignore) are used to keep certain things about your public code private. This is a common practice, and useful if we decide we want to publish this code. (I’m contemplating it, so VC's can see.) So, now that you know this, there are two things in the .gitignore, which I encourage you to inspect.
+Now, before we actually run the app, there are some things we need to discuss. For instance, the actual build running on [NovelicaTech](novelicatech.com) is not in this repository. This was achieved by putting the path to the folder holding the live build in the .gitignore file. These kind of files (.gitignore) are used to keep certain things about your public code private. This is a common practice, and useful if we decide we want to publish this code. (I’m contemplating it, so VC's can see.) So, now that you know this, there are two things in the .gitignore, which I encourage you to inspect.
 
 ```
 # Novelica/.gitignore
