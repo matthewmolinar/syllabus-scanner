@@ -31,6 +31,6 @@ Next, you will need to set the KEY variable. This is used by our security.py, an
 KEY=OURKEYWITHNOQUOTES
 ```
 Okay, now that's done! We're almost ready to dive in. But wait . . You're probably wondering about ```novelica/```
-This is where I keep the live build running. But more specifically, it's a file with * a repository *.
+This is where I keep the live build running. But more specifically, it's a file with *a repository*.
 
  
