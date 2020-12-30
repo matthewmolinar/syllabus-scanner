@@ -39,6 +39,9 @@ This is where I keep the live build running. But more specifically, it's a file 
 newly generated ```build``` file created from the ```frontend/``` and then I'll stick it in ```novelica/``` and alter ```app.py``` a little so
 that it runs with the static build files. Then, I'll commit it, and push it to Heroku using their CLI.
 
-## Forward!
+# Now For The Tour
+Let's get you up and running. Before we look at the code, let's just get this thing off the ground and let you mess around with it. 
+Right now, 
+
 
  
