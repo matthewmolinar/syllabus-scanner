@@ -21,4 +21,6 @@ Next, you will need to set the KEY variable. This is used by our security.py, an
 ```
 KEY=OURKEYWITHNOQUOTES
 ```
+Okay, now that's done! We're almost ready to dive in. You're probably wondering about ```novelica/```
+
  
