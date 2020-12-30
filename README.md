@@ -16,4 +16,9 @@ Go ahead and make an .env file in backend.
 ```
 cd backend && touch .env
 ```
+
+Next, you will need to set the KEY variable. This is used by our security.py, and in turn our app.py. Our key is on the docs in Resources.
+```
+KEY=OURKEYWITHNOQUOTES
+```
  
