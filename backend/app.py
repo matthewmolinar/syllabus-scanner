@@ -67,7 +67,7 @@ def removeUser(uid):
         print(e)
         return False
 
-# ROUTES. 
+# # ROUTES. 
 # @app.route("/<a>")
 # def react_routes(a):
 #     return app.send_static_file("index.html")
