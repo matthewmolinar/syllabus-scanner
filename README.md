@@ -80,5 +80,6 @@ python3 app.py
 ```
 Open up Chrome, and navigate to [localhost:5000](http://localhost:5000)
 
+# How to Begin Creating
 
  
