@@ -31,6 +31,10 @@ Next, you will need to set the KEY variable. This is used by our security.py, an
 KEY=OURKEYWITHNOQUOTES
 ```
 Okay, now that's done! We're almost ready to dive in. But wait . . You're probably wondering about ```novelica/```
-This is where I keep the live build running. But more specifically, it's a file with *a repository*.
+This is where I keep the live build running. But more specifically, it's a file with *a repository*. The way this actually works, is I'll put the
+newly generated ```build``` file created from the ```frontend/``` and then I'll stick it in ```novelica/``` and alter ```app.py``` a little so
+that it runs with the static build files. Then, I'll commit it, and push it to Heroku using their CLI.
+
+## Forward!
 
  
