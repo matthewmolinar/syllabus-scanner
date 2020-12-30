@@ -14,13 +14,14 @@ import StudentNavbarLinks from './StudentNavbarLinks.js';
 import Button from 'components/CustomButtons/StudentButton.js'
 
 import styles from 'assets/jss/material-dashboard-react/components/headerStyle.js';
+import { RouterSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles(styles);
 
 export default function StudentNavbar(props) {
     const classes = useStyles();
     
-    const { color } = props;
+    const { color, routes } = props;
     const appBarClasses = classNames({
         [" " + classes[color]]: color
     });
@@ -29,8 +30,8 @@ export default function StudentNavbar(props) {
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button color="transparent" href="#" className={classes.title}>
-            
+          <Button color="transparent" href="https://novelicatech.com/student" className={classes.title}>
+            Loadouts
           </Button>
         </div>
         <Hidden smDown implementation="css">

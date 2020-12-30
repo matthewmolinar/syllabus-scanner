@@ -13,25 +13,25 @@ import StudentProfile from "views/UserProfile/UserProfile.js";
 const dashboardRoutes = [
     {
         path: "/dashboard",
-        name: "Home",
+        name: "Loadouts",
         icon: Dashboard,
         component: StudentDashboard,
         layout: "/student"
     },
-    {
-        path: "/user",
-        name: "Student Profile",
-        icon: Person,
-        component: StudentProfile,
-        layout: "/student"
-    },
-    {
-        path: "/feedback",
-        name: "Feedback",
-        icon: Notifications,
-        component: FeedbackPage,
-        layout: "/student"
-    }
+    // {
+    //     path: "/user",
+    //     name: "Student Profile",
+    //     icon: Person,
+    //     component: StudentProfile,
+    //     layout: "/student"
+    // },
+    // {
+    //     path: "/feedback",
+    //     name: "Feedback",
+    //     icon: Notifications,
+    //     component: FeedbackPage,
+    //     layout: "/student"
+    // }
 ];
 
 export default dashboardRoutes;

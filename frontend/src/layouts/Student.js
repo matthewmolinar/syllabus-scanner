@@ -14,6 +14,7 @@ import { makeStyles } from '@material-dash/core/styles';
 import StudentNavbar from 'components/StudentNavbars/StudentNavbar.js';
 import StudentFooter from 'components/StudentFooter/StudentFooter.js';
 import StudentSidebar from 'components/StudentSidebar/StudentSidebar.js';
+import StudentDashboard from 'views/StudentDashboard/StudentDashboard.js';
 
 import routes from 'routes.js';
 
@@ -116,12 +117,13 @@ export default function Student({ ...rest }) {
         <StudentNavbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}
+          color="black"
           {...rest}
         />
         {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
         
           <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
+            <div className={classes.container}><StudentDashboard /></div>
           </div>
         
         <StudentFooter />

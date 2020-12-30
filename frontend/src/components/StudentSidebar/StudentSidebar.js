@@ -68,12 +68,12 @@ export default function StudentSidebar(props) {
   var brand = (
     <div className={classes.logo}>
       <a
-        href="http://localhost:3001/"
+        href="https://novelicatech.com"
         className={classNames(classes.logoLink)}
         target="_blank"
       >
         <div className={classes.logoImage}>
-          <img src={logo} alt="logo" className={classes.img} />
+          <img className={classes.img} />
         </div>
         {logoText}
       </a>
@@ -84,7 +84,7 @@ export default function StudentSidebar(props) {
       <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
-          anchor={props.rtlActive ? "left" : "right"}
+          anchor={"left"}
           open={props.open}
           classes={{
             paper: classNames(classes.drawerPaper)

@@ -33,23 +33,23 @@ export default function Footer(props) {
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="/"
+                href="https://novelicatech.com"
                 className={classes.block}
                 target="_blank"
               >
-                Novelica, Inc.
+                Novelica
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="/"
+                href="https://novelicatech.com"
                 className={classes.block}
                 target="_blank"
               >
                 About us
               </a>
             </ListItem>
-            <ListItem className={classes.inlineBlock}>
+            {/* <ListItem className={classes.inlineBlock}>
               <a
                 href="/"
                 className={classes.block}
@@ -57,8 +57,8 @@ export default function Footer(props) {
               >
                 Blog
               </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
+            </ListItem> */}
+            {/* <ListItem className={classes.inlineBlock}>
               <a
                 href="/"
                 className={classes.block}
@@ -66,7 +66,7 @@ export default function Footer(props) {
               >
                 Licenses
               </a>
-            </ListItem>
+            </ListItem> */}
           </List>
         </div>
         <div className={classes.right}>

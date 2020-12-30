@@ -49,7 +49,7 @@ export default function LandingPage(props) {
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>Sometimes You Have To Run Before You Can Walk.</h1>
+              <h1 className={classes.title}>Sometimes You Gotta Run Before You Can Walk.</h1>
               <h4>
                 Education is high stakes, and being a student is more demanding
                 than ever. But often, students aren't given the time to prepare. Novelica
@@ -76,7 +76,7 @@ export default function LandingPage(props) {
         <div className={classes.container}>
           <ProductSection />
           <TeamSection />
-          <WorkSection />
+          {/* <WorkSection /> */}
         </div>
       </div>
       <Footer />

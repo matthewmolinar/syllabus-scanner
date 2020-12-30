@@ -18,17 +18,17 @@ export default function StudentFooter(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="http://localhost:3000/" className={classes.block}>
+              <a href="https://novelicatech.com" className={classes.block}>
                 Home
               </a>
             </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a href="http://localhost:3000/" className={classes.block}>
-                Aevellion, Inc.
+            {/* <ListItem className={classes.inlineBlock}>
+              <a href="https://novelicatech.com" className={classes.block}>
+                Novelica, Inc.
               </a>
-            </ListItem>
+            </ListItem> */}
             <ListItem className={classes.inlineBlock}>
-              <a href="http://localhost:3000/" className={classes.block}>
+              <a href="https://novelicatech.com" className={classes.block}>
                 Blog
               </a>
             </ListItem>
@@ -42,7 +42,7 @@ export default function StudentFooter(props) {
               target="_blank"
               className={classes.a}
             >
-              Aevellion
+              Novelica
             </a>
             , made with love for a better world
           </span>
