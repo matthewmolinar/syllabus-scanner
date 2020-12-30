@@ -74,7 +74,11 @@ def react_routes(a):
 def react_index():
     return app.send_static_file("index.html")
 ```
-
+Now, the moment you've been waiting for.
+```
+python3 app.py
+```
+Open up Chrome, and navigate to [localhost:5000] (localhost:5000)
 
 
  
