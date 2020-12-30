@@ -6,7 +6,11 @@ The first thing you’ll want to do is clone the repo onto your own machine. Don
 ```
 Novelica/
  backend/
+  app.py
+  security.py
  frontend/
+  public/
+  src/
  (hidden) novelica/
 ```
 
