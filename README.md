@@ -61,6 +61,9 @@ cd ../backend
 source venv/bin/activate
 ```
 
+Now, before we can run ```app.py```, we need to make some changes. Luckily, I have them commented out, so all you need to do is un-comment them.
+Tip: You can do that by using <kbd>Cmd</kbd>
+
 
 
  
