@@ -1,4 +1,4 @@
-# Novelica
+# Novelica Technologies
 ## Walkthrough
 The first thing you’ll want to do is clone the repo onto your own machine. Don’t worry about initializing the virtualenv, since it's already installed. You just need to activate it. 
 
@@ -30,6 +30,7 @@ Next, you will need to set the KEY variable. This is used by our security.py, an
 ```
 KEY=OURKEYWITHNOQUOTES
 ```
-Okay, now that's done! We're almost ready to dive in. You're probably wondering about ```novelica/```
+Okay, now that's done! We're almost ready to dive in. But wait . . You're probably wondering about ```novelica/```
+This is where I keep the live build running. But more specifically, it's a file with ** a repository **.
 
  
