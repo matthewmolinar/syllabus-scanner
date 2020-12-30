@@ -78,7 +78,7 @@ Now, the moment you've been waiting for.
 ```
 python3 app.py
 ```
-Open up Chrome, and navigate to [localhost:5000] (localhost:5000)
+Open up Chrome, and navigate to [localhost:5000](localhost:5000)
 
 
  
