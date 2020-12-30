@@ -1,5 +1,5 @@
 # Novelica Technologies
-## Walkthrough
+## Walkthrough by Matthew
 The first thing you’ll want to do is clone the repo onto your own machine. Don’t worry about initializing the virtualenv, since it's already installed. You just need to activate it. 
 
 #### File Structure at a glance
@@ -55,6 +55,12 @@ Okay, now once it's done, you'll want to move the newly created ```build``` dire
 mv build ../backend
 ```
 Alright. Almost there.
+First, before we forget, let's initialize our virtual environment. Before you do so, you'll need to be in the backend, since the venv is located there.
+```
+cd ../backend
+source venv/bin/activate
+```
+
 
 
  
