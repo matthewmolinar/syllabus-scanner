@@ -2,7 +2,8 @@ import dotenv
 dotenv.load_dotenv()
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import werkzeug
+from werkzeug.utils import secure_filename
+import os
 from flask_cors import CORS
 import re
 import security
@@ -13,14 +14,18 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 app = Flask(__name__, static_folder="build", static_url_path="/")
 
 # Configuring the upload functionality
-ALLOWED_EXTENSIONS = {'pdf'}
-UPLOAD_FOLDER = './uploads'
+# If you add a file larger than 1MB, the application will refuse it.
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+# Making sure nobody tries to hack us lol.
+app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx']
+# This is where we will be keeping syllabi for now in the backend.
+app.config['UPLOAD_PATH'] = 'uploads'
+
 # Configuring the database file.
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///aevellion.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Need to turn this into a ENV variable through dotenv.
 app.config["JWT_SECRET_KEY"] = "myawesomesecretisnevergonnagiveyouup"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # app.config["JWT_BLACKLIST_ENABLED"] = True
 # app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = ["access", "refresh"]
 jwt = JWTManager(app)
@@ -198,11 +203,20 @@ def protected():
 
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        uploaded_file.save(uploaded_file.filename)
+    try:
+        for uploaded_file in request.files.getlist('file'):
+            filename = secure_filename(uploaded_file.filename)
+            if filename != '':
+                file_ext = os.path.splitext(filename)[1]
+                if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                    return jsonify({"success": False})
+                # This is fine for now. I do suspect we will want to save it to the db, or maybe not.
+                # I'm envisioning we just make a call to another function here that will do the "scrape"
+                uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
         return jsonify({"success": True})
-    return jsonify({"success": False})
+    except Exception as e:
+        return jsonify({"error": e})
+
     
 
 if __name__ == "__main__":

@@ -81,8 +81,16 @@ export default function StudentDashboard() {
   const uploadFile = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    const file = document.querySelector("#file-1")
-    formData.append("file", file.files[0])
+    // You need to figure out how to select however many files there are.
+    // Idea:
+    // access the state...
+    // query select those file-(#)
+    // How do you send multiple files at once?
+    for (let i = 1; i < classNum + 1; i++) {
+      let file = document.querySelector(`#file-${i}`)
+      formData.append("file", file.files[0])
+    }
+    console.log(formData);
     axios
       .post('/api/upload', formData, {
         headers: {
@@ -91,7 +99,7 @@ export default function StudentDashboard() {
       }
       )
       .then(res => console.log(res.data))
-      .catch(err => console.log("error"));
+      .catch(err => console.log(err.data));
     handleClose()
 
 
