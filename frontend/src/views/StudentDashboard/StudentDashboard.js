@@ -136,24 +136,25 @@ export default function StudentDashboard() {
     xhr.send();
   }
 
-  const postRequestS3 = (file, s3Data, url) => {
-    let xhr = new XMLHttpRequest();
+  function postRequestS3(file, s3Data, url){
+    var xhr = new XMLHttpRequest();
     xhr.open("POST", s3Data.url);
-
-    let postData = new FormData();
-    for(let key in s3Data.fields){
+  
+    var postData = new FormData();
+    for(const key in s3Data.fields){
       postData.append(key, s3Data.fields[key]);
     }
-    postData.append('file', file)
-    xhr.onreadystatechange = () => {
+    postData.append('file', file);
+  
+    xhr.onreadystatechange = function() {
       if(xhr.readyState === 4){
         if(xhr.status === 200 || xhr.status === 204){
-          alert("Success. Uploaded file to s3.")
+          setLoadout(true);
         }
         else{
-          alert("Could not upload file.")
+          alert("Could not upload file.");
         }
-      }
+     }
     };
     xhr.send(postData);
   }
