@@ -72,6 +72,7 @@ const newStyles = makeStyles({
 
 export default function StudentDashboard() {
   const classes = useStyles();
+  // This was named cardclass, but now it handles a lot of things that I built myself.
   const cardclass = newStyles();
   const [open, setOpen] = React.useState(false)
   const [classNum, setClassNum] = React.useState(1);
@@ -81,11 +82,7 @@ export default function StudentDashboard() {
   const uploadFile = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    // You need to figure out how to select however many files there are.
-    // Idea:
-    // access the state...
-    // query select those file-(#)
-    // How do you send multiple files at once?
+    // This sends every file that has been uploaded.
     for (let i = 1; i < classNum + 1; i++) {
       let file = document.querySelector(`#file-${i}`)
       formData.append("file", file.files[0])
@@ -98,13 +95,16 @@ export default function StudentDashboard() {
         }
       }
       )
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data);
+        // Simulating an ics file coming back.
+        setLoadout(true);
+      })
       .catch(err => console.log(err.data));
+    // It's important to handleClose() HERE, as opposed to onClick with the Generate button.
+    // If you close the modal onClick with the button, there will be no form for axios to send.
     handleClose()
-
-
   };
-
 
   const handleOpen = () => {
     setOpen(true);
@@ -115,11 +115,6 @@ export default function StudentDashboard() {
     setOpen(false);
   };
 
-  const handleGenerate = () => {
-    setOpen(false);
-    setLoadout(true);
-  }
-
 
   return (
     <div>
@@ -128,7 +123,6 @@ export default function StudentDashboard() {
           <Card className={cardclass.card}>
             <CardBody>
               <h4 className={classes.cardTitle}>Novelica Loadout Generator</h4>
-              
               <div className={classes.cardCategory}>
               <CustomModal 
                 aria-labelledby="simple-modal-title"
@@ -151,11 +145,10 @@ export default function StudentDashboard() {
                       onClick={(dropdownItem) => {setClassNum(dropdownItem)}}
                     >
                     </CustomDropdown>
-                    {/* Make a component that will resize based on number */}
+                    {/* UploadArea component resizes based on state of StudentDashboard. */}
                     <UploadArea 
                     numberOfClasses={classNum}
                     />
-
                   </CardBody>
                   <CardFooter>
                     <Button type="submit" variant="contained" color="secondary">Generate Calendar</Button>
@@ -165,22 +158,11 @@ export default function StudentDashboard() {
                 </Card>
               </CustomModal>  
               </div>
-                 
             </CardBody>
-          
           </Card>
         </GridItem>
         <GridItem xs={6} sm={6} md={6} spacing={1}>
           <Card className={cardclass.loadout}>
-            {/* <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader> */}
             <CardBody>
             <h4 className={classes.cardTitle}>Current Novelica Loadout</h4>
               <p className={classes.cardCategory}>
@@ -201,7 +183,6 @@ export default function StudentDashboard() {
         </GridItem>
       </GridContainer>
       <GridContainer spacing={0} justify="center">
-        
       </GridContainer>
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={12} spacing={0}>
@@ -221,98 +202,6 @@ export default function StudentDashboard() {
 
         </GridItem>
       </GridContainer>
-      {/* <GridContainer spacing ={0} justify="center">
-        <GridItem xs={3} sm={3} md={3}>
-          <Card> */}
-            {/* <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader> */}
-            {/* <CardBody>
-            <h4 className={classes.cardTitle}>Current Syllabi Calendar Loadout</h4>
-              <p className={classes.cardCategory}>
-                Nothing Here!
-              </p>
-            </CardBody>
-            <CardFooter >
-              <div className={classes.stats}>
-                <AccessTime /> updated just now
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        
-      </GridContainer> */}
-      {/* <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="info"
-            tabs={[
-              {
-                tabName: "Homework",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={homework}
-                  />
-                )
-              },
-              {
-                tabName: "Quizzes",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={quizzes}
-                  />
-                )
-              },
-              {
-                tabName: "Exams",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={exams}
-                  />
-                )
-              }
-            ]}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <Card>
-            <CardHeader color="info">
-              <h4 className={classes.cardTitleWhite}>Previous Syllabi Calendar Loadouts</h4>
-              <p className={classes.cardCategoryWhite}>
-                You've created 4 loadouts.
-              </p>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Classes", "Type"]}
-                tableData={[
-                  ["1", "Custom Name 1", "4", ".file"],
-                  ["2", "Custom Name 2", "2", ".file"],
-                  ["3", "Custom Name 3", "5", ".file"],
-                  ["4", "Custom Name 4", "3", ".file"]
-                ]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer> */}
     </div>
   );
 }
