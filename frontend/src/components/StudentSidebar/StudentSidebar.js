@@ -75,6 +75,7 @@ export default function StudentSidebar(props) {
         <div className={classes.logoImage}>
           <img className={classes.img} />
         </div>
+        
         {logoText}
       </a>
     </div>

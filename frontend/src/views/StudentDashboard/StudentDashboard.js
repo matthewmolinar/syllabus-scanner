@@ -33,6 +33,7 @@ import UploadArea from 'components/UploadArea/UploadArea';
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
+import axios from "axios";
 
 const useStyles = makeStyles(styles);
 const newStyles = makeStyles({
@@ -68,52 +69,6 @@ const newStyles = makeStyles({
 
 })
 
-const theme = createMuiTheme({
-  typography: {
-    h2: {
-      fontSize: 14,
-      marginBottom: 10,
-      color: '#808080',
-    },
-    transitions: {
-      duration: {
-        shortest: 150,
-        shorter: 200,
-        short: 250,
-        // most basic recommended timing
-        standard: 300,
-        // used in complex animations
-        complex: 375,
-        // recommended when something is entering screen
-        enteringScreen: 225,
-        // recommended when something is leaving screen
-        leavingScreen: 195,
-      },
-      easing: {
-        // This is the most common easing curve.
-        easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-        // Objects enter the screen at full velocity from off-screen and
-        // slowly decelerate to a resting point.
-        easeOut: 'cubic-bezier(0.0, 0, 0.2, 1)',
-        // Objects leave the screen at full velocity. They do not decelerate when off-screen.
-        easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
-        // The sharp curve is used by objects that may return to the screen at any time.
-        sharp: 'cubic-bezier(0.4, 0, 0.6, 1)',
-    }
-      
-    
-  }
-}})
-
-// Not sure if I'm keeping this lmao. Not sure why I made it, so I'll 
-function ButtonStyled() {
-  const buttonclass = newStyles();
-  return <Button className={buttonclass.button} variant="contained" color="secondary" startIcon={<Save />}
-  >
-    Upload Syllabi
-  </Button>
-}
-
 
 export default function StudentDashboard() {
   const classes = useStyles();
@@ -121,7 +76,26 @@ export default function StudentDashboard() {
   const [open, setOpen] = React.useState(false)
   const [classNum, setClassNum] = React.useState(1);
   const [loadout, setLoadout] = React.useState(false);
+  const [file, setFile] = React.useState();
 
+  const uploadFile = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const file = document.querySelector("#file-1")
+    formData.append("file", file.files[0])
+    axios
+      .post('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      )
+      .then(res => console.log(res.data))
+      .catch(err => console.log("error"));
+    handleClose()
+
+
+  };
 
 
   const handleOpen = () => {
@@ -141,7 +115,6 @@ export default function StudentDashboard() {
 
   return (
     <div>
-      <ThemeProvider theme={theme}>
       <GridContainer justify="center">
         <GridItem xs={6} sm={6} md={6} spacing={1}>
           <Card className={cardclass.card}>
@@ -158,6 +131,7 @@ export default function StudentDashboard() {
                 id="modal"
               >
                 <Card className={cardclass.modal}>
+                  <form onSubmit={uploadFile}>
                   <CardBody>
                     <h4 className={classes.cardtitle}>How many classes are you taking?</h4>
                     <CustomDropdown
@@ -173,17 +147,19 @@ export default function StudentDashboard() {
                     <UploadArea 
                     numberOfClasses={classNum}
                     />
-                  </CardBody>
 
+                  </CardBody>
                   <CardFooter>
-                    <Button type="button" variant="contained" color="secondary" onClick={handleGenerate}>Generate Calendar</Button>
+                    <Button type="submit" variant="contained" color="secondary">Generate Calendar</Button>
                     <Button type="button" onClick={handleClose} className={cardclass.modalClose}>Close</Button>
                   </CardFooter>
+                  </form>
                 </Card>
               </CustomModal>  
               </div>
                  
             </CardBody>
+          
           </Card>
         </GridItem>
         <GridItem xs={6} sm={6} md={6} spacing={1}>
@@ -204,6 +180,7 @@ export default function StudentDashboard() {
                 {loadout && <Button 
                 variant="contained"
                 color="secondary"
+                type="button"
                 >Download Calendar</Button>}
               </p>
             </CardBody>
@@ -328,7 +305,6 @@ export default function StudentDashboard() {
           </Card>
         </GridItem>
       </GridContainer> */}
-      </ThemeProvider>
     </div>
   );
 }

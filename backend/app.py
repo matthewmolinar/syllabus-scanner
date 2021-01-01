@@ -2,6 +2,7 @@ import dotenv
 dotenv.load_dotenv()
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import werkzeug
 from flask_cors import CORS
 import re
 import security
@@ -11,11 +12,15 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 # Defining the app itself.
 app = Flask(__name__, static_folder="build", static_url_path="/")
 
+# Configuring the upload functionality
+ALLOWED_EXTENSIONS = {'pdf'}
+UPLOAD_FOLDER = './uploads'
 # Configuring the database file.
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///aevellion.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Need to turn this into a ENV variable through dotenv.
 app.config["JWT_SECRET_KEY"] = "myawesomesecretisnevergonnagiveyouup"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # app.config["JWT_BLACKLIST_ENABLED"] = True
 # app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = ["access", "refresh"]
 jwt = JWTManager(app)
@@ -66,6 +71,10 @@ def removeUser(uid):
     except Exception as e:
         print(e)
         return False
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # # ROUTES. 
 # @app.route("/<a>")
@@ -184,6 +193,17 @@ def protected():
     # Access the identity of the current user with get_jwt_identity
     identity = get_jwt_identity()
     return jsonify(logged_in_as=identity), 200
+
+
+
+@app.route('/api/upload', methods=['POST'])
+def upload_file():
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        uploaded_file.save(uploaded_file.filename)
+        return jsonify({"success": True})
+    return jsonify({"success": False})
+    
 
 if __name__ == "__main__":
     app.run(debug=True) # debug=True restarts the server everytime we make a change in our code

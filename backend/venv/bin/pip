@@ -1,4 +1,4 @@
-#!/Users/matthewmolinar/projects/aevellion/backend/venv/bin/python3
+#!/Users/matthewmolinar/projects/Novelica/backend/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

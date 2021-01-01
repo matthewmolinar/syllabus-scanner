@@ -24,7 +24,7 @@ import styles from 'assets/jss/material-kit-react/layouts/adminStyle.js';
 // import bgImage
 import bgImage from 'assets/img/landing7.jpg';
 // import Logo
-import logo from 'assets/img/reactlogo.png';
+import logo from 'assets/img/randomnove.png';
 
 // NOTES:
 /* looks like we wont be needing FixedPlugin component.
