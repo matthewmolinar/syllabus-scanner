@@ -1,17 +1,11 @@
 import React from "react";
-// import useState from 'react';
-
 // @material-ui/core
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-dash/core/styles";
 import {Button} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-
-
-
 // @material-ui/icons
 import {Save} from '@material-ui/icons';
 import AccessTime from "@material-dash/icons/AccessTime";
-
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -25,12 +19,6 @@ import CustomDialog from 'components/CustomDialog/CustomDialog.js';
 import CustomModal from 'components/CustomModal/CustomModal.js';
 import CustomDropdown from 'components/CustomDropdown/CustomDropdown.js';
 import UploadArea from 'components/UploadArea/UploadArea';
-
-
-
-
-
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 import axios from "axios";
@@ -65,10 +53,7 @@ const newStyles = makeStyles({
   modalClose: {
     margin: 'auto'
   }
-
-
 })
-
 
 export default function StudentDashboard() {
   const classes = useStyles();
@@ -115,6 +100,64 @@ export default function StudentDashboard() {
     setOpen(false);
   };
 
+  // This is used to detect changes in the input from <UploadArea />
+  // Under Construction. Not sure if needed at the moment. 
+
+  // CURRENTLY ONLY SUPPORTS UPLOADING ONE FILE.
+  const uploadFileS3 = (e) => {
+    e.preventDefault();
+    // This might not work. But I'm giving it a shot.
+    let file = document.querySelector("#file-1")
+    file = file.files[0]
+    if(!file){
+      return alert("No file selected.")
+    }
+    console.log(file)
+    getSignedRequest(file)
+  
+  };
+
+  // only takes one file.
+  const getSignedRequest = file => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === 4){
+        if(xhr.status === 200){
+          let response = JSON.parse(xhr.responseText);
+          postRequestS3(file, response.data, response.url);
+          alert('signedurl worked.')
+        }
+        else{
+          alert("Could not get signed URL. Please contact novelicatechnologies.gmail.com with this error.")
+        }
+      }
+    };
+    xhr.send();
+  }
+
+  const postRequestS3 = (file, s3Data, url) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", s3Data.url);
+
+    let postData = new FormData();
+    for(let key in s3Data.fields){
+      postData.append(key, s3Data.fields[key]);
+    }
+    postData.append('file', file)
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === 4){
+        if(xhr.status === 200 || xhr.status === 204){
+          alert("Success. Uploaded file to s3.")
+        }
+        else{
+          alert("Could not upload file.")
+        }
+      }
+    };
+    xhr.send(postData);
+  }
+
 
   return (
     <div>
@@ -133,7 +176,7 @@ export default function StudentDashboard() {
                 id="modal"
               >
                 <Card className={cardclass.modal}>
-                  <form onSubmit={uploadFile}>
+                  <form onSubmit={uploadFileS3} id="files_input">
                   <CardBody>
                     <h4 className={classes.cardtitle}>How many classes are you taking?</h4>
                     <CustomDropdown
@@ -173,6 +216,7 @@ export default function StudentDashboard() {
                 type="button"
                 >Download Calendar</Button>}
               </p>
+              
             </CardBody>
             <CardFooter >
               <div className={classes.stats}>
