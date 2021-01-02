@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @material-ui/core
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-dash/core/styles";
 import {Button} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 // @material-ui/icons
-import {Save} from '@material-ui/icons';
+import {CalendarToday, Save} from '@material-ui/icons';
 import AccessTime from "@material-dash/icons/AccessTime";
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -55,7 +55,7 @@ const newStyles = makeStyles({
   }
 })
 
-export default function StudentDashboard() {
+export default function StudentDashboard(props) {
   const classes = useStyles();
   // This was named cardclass, but now it handles a lot of things that I built myself.
   const cardclass = newStyles();
@@ -72,7 +72,6 @@ export default function StudentDashboard() {
       let file = document.querySelector(`#file-${i}`)
       formData.append("file", file.files[0])
     }
-    console.log(formData);
     axios
       .post('/api/upload', formData, {
         headers: {
@@ -103,30 +102,27 @@ export default function StudentDashboard() {
   // This is used to detect changes in the input from <UploadArea />
   // Under Construction. Not sure if needed at the moment. 
 
-  // CURRENTLY ONLY SUPPORTS UPLOADING ONE FILE.
+  // Maybe run a getSignedRequest on each file submitted.
   const uploadFileS3 = (e) => {
     e.preventDefault();
-    // This might not work. But I'm giving it a shot.
-    let file = document.querySelector("#file-1")
-    file = file.files[0]
-    if(!file){
-      return alert("No file selected.")
+    for (let i = 1; i < classNum + 1; i++) {
+      let file = document.querySelector(`#file-${i}`)
+      file = file.files[0]
+      // this is basically sending each file and doing the process
+      // on each file. Don't do this at home kids. Use AWS Lambda functions.
+      getSignedRequest(file)
     }
-    console.log(file)
-    getSignedRequest(file)
-  
   };
 
   // only takes one file.
   const getSignedRequest = file => {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
     xhr.onreadystatechange = () => {
       if(xhr.readyState === 4){
         if(xhr.status === 200){
-          let response = JSON.parse(xhr.responseText);
+          const response = JSON.parse(xhr.responseText);
           postRequestS3(file, response.data, response.url);
-          alert('signedurl worked.')
         }
         else{
           alert("Could not get signed URL. Please contact novelicatechnologies.gmail.com with this error.")
@@ -136,29 +132,26 @@ export default function StudentDashboard() {
     xhr.send();
   }
 
-  function postRequestS3(file, s3Data, url){
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", s3Data.url);
-  
+  const postRequestS3 = (file, s3Data, url) => {
     var postData = new FormData();
-    for(const key in s3Data.fields){
+    for(let key in s3Data.fields){
       postData.append(key, s3Data.fields[key]);
     }
     postData.append('file', file);
-  
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState === 4){
-        if(xhr.status === 200 || xhr.status === 204){
-          setLoadout(true);
-        }
-        else{
-          alert("Could not upload file.");
-        }
-     }
-    };
-    xhr.send(postData);
+    
+    axios.post(s3Data.url, postData)
+    .then( () => {
+      document.getElementById("preview").href = url;
+      setLoadout(true);
+      handleClose()
+    })
+    .catch(error => {
+      console.log(error.response)
+    })
   }
 
+  
+  
 
   return (
     <div>
@@ -217,6 +210,7 @@ export default function StudentDashboard() {
                 type="button"
                 >Download Calendar</Button>}
               </p>
+              <a id="preview" href=""> See current syllabi. </a>
               
             </CardBody>
             <CardFooter >

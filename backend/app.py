@@ -3,7 +3,7 @@ dotenv.load_dotenv()
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-import os
+import os, json, boto3
 from flask_cors import CORS
 import re
 import security
@@ -31,6 +31,7 @@ app.config["JWT_SECRET_KEY"] = "myawesomesecretisnevergonnagiveyouup"
 jwt = JWTManager(app)
 CORS(app)
 
+
 # DB
 db = SQLAlchemy(app)
 class User(db.Model):
@@ -47,15 +48,18 @@ class User(db.Model):
         self.email = email
         self.pwd = pwd
 
+
 # CRUD (Create, Read, Update, Destroy)
 def getUsers():
     users = User.query.all()
     return [{"id": i.id, "firstname": i.firstname, "lastname": i.lastname, "email": i.email, "password": i.pwd} for i in users]
 
+
 def getUser(uid):
     users = User.query.all()
     user = list(filter(lambda x: x.id == uid, users))[0]
     return {"id": user.id, "firstname": user.firstname, "lastname": user.lastname, "email": user.email, "password": user.pwd}
+
 
 def addUser(firstname, lastname, email, pwd):
     try:
@@ -67,6 +71,7 @@ def addUser(firstname, lastname, email, pwd):
         print(e)
         return False
 
+
 def removeUser(uid):
     try:
         user = User.query.get(uid)
@@ -77,18 +82,21 @@ def removeUser(uid):
         print(e)
         return False
 
-def allowed_file(filename):
-    return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# # ROUTES. 
-# @app.route("/<a>")
-# def react_routes(a):
-#     return app.send_static_file("index.html")
+# def allowed_file(filename):
+#     return '.' in filename and \
+#         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# @app.route("/")
-# def react_index():
-#     return app.send_static_file("index.html")
+
+# ROUTES. 
+@app.route("/<a>")
+def react_routes(a):
+    return app.send_static_file("index.html")
+
+@app.route("/")
+def react_index():
+    return app.send_static_file("index.html")
+    
 class InvalidToken(db.Model):
     __tablename__ = "invalid_tokens"
     id = db.Column(db.Integer, primary_key=True)
@@ -109,6 +117,7 @@ class InvalidToken(db.Model):
 #     jti = decrypted["jti"]
 #     return InvalidToken.is_invalid(jti)
     
+
 @app.route("/api/login", methods=["POST"])
 def login():
     try:
@@ -153,6 +162,7 @@ def register():
     except Exception as e:
         return jsonify({"error": f"Invalid form{e}"})
 
+
 @app.route("/api/checkiftokenexpire", methods=["POST"])
 @jwt_required
 def check_if_token_expire():
@@ -192,6 +202,7 @@ def refresh_logout():
         print(e)
         return {"error": e}
 
+
 @app.route('/protected', methods=['GET'])
 @jwt_required
 def protected():
@@ -200,7 +211,7 @@ def protected():
     return jsonify(logged_in_as=identity), 200
 
 
-
+# this is for local testing.
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     try:
@@ -217,7 +228,32 @@ def upload_file():
     except Exception as e:
         return jsonify({"error": e})
 
-    
+
+# This is for s3 bucket functionality
+@app.route('/sign_s3/')
+def sign_s3():
+  S3_BUCKET = "novelica-syllabi"
+
+  file_name = request.args.get('file_name')
+  file_type = request.args.get('file_type')
+
+  s3 = boto3.client('s3')
+
+  presigned_post = s3.generate_presigned_post(
+    Bucket = S3_BUCKET,
+    Key = file_name,
+    Fields = {"acl": "public-read", "Content-Type": file_type},
+    Conditions = [
+      {"acl": "public-read"},
+      {"Content-Type": file_type}
+    ],
+    ExpiresIn = 3600
+  )
+
+  return json.dumps({
+    'data': presigned_post,
+    'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+  })
 
 if __name__ == "__main__":
     app.run(debug=True) # debug=True restarts the server everytime we make a change in our code
