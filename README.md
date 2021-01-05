@@ -89,7 +89,7 @@ cd frontend
 yarn add/npm install
 ```
 After this, open up your code editor on your machine and make these changes:
- 1. Open src/views/StudentDashboard/StudentDashboard.js
+ 1. Open ``` src/views/StudentDashboard/StudentDashboard.js ```
  2. Scroll down to line 173 and change the line to this:
   ```
   <form onSubmit={uploadFile} id="files_input">
