@@ -111,7 +111,7 @@ Navigate to your browser, and begin hacking!
 
 
 # Backend
-If your server keeps restarting even if you run ``` python3 app.py ``` command, simply replace line 259 of app.py with this code:
+If your server keeps restarting even if you run ``` python3 app.py ``` command, simply replace line 259 of ``` app.py ``` with this code:
  ```
  app.run()
  ```
