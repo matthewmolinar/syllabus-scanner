@@ -82,5 +82,36 @@ python3 app.py
 Open up Chrome, and navigate to [localhost:5000](http://localhost:5000)
 
 # How to Begin Creating
+# Frontend
+After cloning the repo onto your machine, run these commands for the frontend:
+```
+cd frontend
+yarn add/npm install
+```
+After this, open up your code editor on your machine and make these changes:
+ 1. Open src/views/StudentDashboard/StudentDashboard.js
+ 2. Scroll down to line 173 and change the line to this:
+  ```
+  <form onSubmit={uploadFile} id="files_input">
+  ```
+ 3. From there, you will need to delete the material-dash folder from your project, and you will need to change
+ every instance of @material-dash in the project. Here is the best way to do it:
+  ```
+  1. Type this command: "CMD + SHIFT + F"
+  2. Type @material-dash in the top line
+  3. Click the down arrow next to the Search bar
+  4. Type @material-ui into the Replace bar
+  5. Finally, click the Replace All button next to the Replace bar
+  ```
+ 4. Finally, run the command
+  ```
+  yarn start/npm start
+  ```
+Navigate to your browser, and begin hacking!
 
- 
+
+# Backend
+If your server keeps restarting even if you run ``` python3 app.py ``` command, simply replace line 259 of app.py with this code:
+ ```
+ app.run()
+ ```
