@@ -255,5 +255,15 @@ def sign_s3():
     'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
   })
 
+@app.route('/api/pdf', methods=['POST'])
+def calendarify():
+    # Placeholder.
+    calendar = ''
+    # Make call AWS to find the file.
+    file_name = request.args.get('file_name')
+
+
+    return jsonify({"calendar": calendar})
+    
 if __name__ == "__main__":
     app.run(debug=True) # debug=True restarts the server everytime we make a change in our code

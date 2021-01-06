@@ -110,9 +110,23 @@ export default function StudentDashboard(props) {
       file = file.files[0]
       // this is basically sending each file and doing the process
       // on each file. Don't do this at home kids. Use AWS Lambda functions.
+
+
+      // calendarify(file.name)
       getSignedRequest(file)
     }
   };
+
+  const calendarify = (filename) => {
+    const formData = new FormData();
+    formData.append("file_name", filename)
+    axios
+      .post("/api/pdf", formData)
+      .then(res => {
+        // This needs to be configured to target the download button.
+        document.getElementById("").value = res.calendar
+      })
+  }
 
   // only takes one file.
   const getSignedRequest = file => {
