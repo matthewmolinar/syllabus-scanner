@@ -262,6 +262,10 @@ def calendarify():
     # Make call AWS to find the file.
     file_name = request.args.get('file_name')
 
+    # PDF reading
+
+    # calendar return and saved in calendar variable
+
 
     return jsonify({"calendar": calendar})
     
