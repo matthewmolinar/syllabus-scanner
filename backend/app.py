@@ -229,13 +229,15 @@ def upload_file():
                 # Get the professor's name, and find the calendar for that class
 
                 # CALEB: Get the ics file
-                calendar = ''
+                calendar = 'add to the big calendar'
 
 
-
-                return jsonify({"calendar": calendar})
-                # un-comment this if you want to do local testing. It saves the file.
-                # uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+                #un-comment this out if you want to return the file itself for button download testing
+                # return jsonify({"calendar": uploaded_file})
+        calendar = 'or maybe merge a bunch of different calendars into one'
+        return jsonify({"calendar": calendar})
+        # un-comment this if you want to do local testing. It saves the file.
+        # uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"error": e})

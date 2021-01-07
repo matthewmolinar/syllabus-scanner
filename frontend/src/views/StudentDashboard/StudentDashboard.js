@@ -83,9 +83,15 @@ export default function StudentDashboard(props) {
       }
       )
       .then(res => {
-        console.log(res.calendar);
-        // Simulating an ics file coming back.
-        setLoadout(true);
+        console.log(res.calendar); // Checking to see if the file came through for debugging purposes.
+
+        setLoadout(true); // This shows the loadout, which is a more simple approach. However, this 
+        // might not be the way you wish to go, if you want to download as soon as the cal comes
+        // back, you'll need to initiate an event of some type that downloads the file that returned
+        // on the client's computer.
+
+        //IF you want to go the simple route, this is what you'd do
+        document.getElementById('loadout').href = res.calendar;
       })
       .catch(err => console.log(err.data));
     // It's important to handleClose() HERE, as opposed to onClick with the Generate button.
@@ -214,9 +220,10 @@ export default function StudentDashboard(props) {
                 variant="contained"
                 color="secondary"
                 type="button"
+                id="loadout"
+                href="/"
                 >Download Calendar</Button>}
               </p>
-              <a id="preview" href=""> See current syllabi. </a>
               
             </CardBody>
             <CardFooter >
