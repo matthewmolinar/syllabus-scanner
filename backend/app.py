@@ -211,7 +211,9 @@ def protected():
     return jsonify(logged_in_as=identity), 200
 
 
-# this is for local testing.
+# This is now for deployment.
+# I have changed this function to only calendarify one file at a time.
+# The front end will run this multiple times depending on the files.
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     try:
@@ -221,53 +223,69 @@ def upload_file():
                 file_ext = os.path.splitext(filename)[1]
                 if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                     return jsonify({"success": False})
-                # This is fine for now. I do suspect we will want to save it to the db, or maybe not.
-                # I'm envisioning we just make a call to another function here that will do the "scrape"
-                uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+                # CALEB: Get the text for the file here
+                    # uploaded_file is the current file
+
+                # Get the professor's name, and find the calendar for that class
+
+                # CALEB: Get the ics file
+                calendar = ''
+
+
+
+                return jsonify({"calendar": calendar})
+                # un-comment this if you want to do local testing. It saves the file.
+                # uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"error": e})
 
 
+# This is not needed at the moment.
 # This is for s3 bucket functionality
-@app.route('/sign_s3/')
-def sign_s3():
-  S3_BUCKET = "novelica-syllabi"
+# @app.route('/sign_s3/')
+# def sign_s3():
+#   S3_BUCKET = "novelica-syllabi"
 
-  file_name = request.args.get('file_name')
-  file_type = request.args.get('file_type')
+#   file_name = request.args.get('file_name')
+#   file_type = request.args.get('file_type')
 
-  s3 = boto3.client('s3')
+#   s3 = boto3.client('s3')
 
-  presigned_post = s3.generate_presigned_post(
-    Bucket = S3_BUCKET,
-    Key = file_name,
-    Fields = {"acl": "public-read", "Content-Type": file_type},
-    Conditions = [
-      {"acl": "public-read"},
-      {"Content-Type": file_type}
-    ],
-    ExpiresIn = 3600
-  )
+#   presigned_post = s3.generate_presigned_post(
+#     Bucket = S3_BUCKET,
+#     Key = file_name,
+#     Fields = {"acl": "public-read", "Content-Type": file_type},
+#     Conditions = [
+#       {"acl": "public-read"},
+#       {"Content-Type": file_type}
+#     ],
+#     ExpiresIn = 3600
+#   )
 
-  return json.dumps({
-    'data': presigned_post,
-    'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
-  })
+#   return json.dumps({
+#     'data': presigned_post,
+#     'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+#   })
 
-@app.route('/api/pdf', methods=['POST'])
-def calendarify():
-    # Placeholder.
-    calendar = ''
-    # Make call AWS to find the file.
-    file_name = request.args.get('file_name')
+# This is not needed at the moment.
+# @app.route('/api/pdf', methods=['POST'])
+# def calendarify():
+#     # Placeholder.
+#     calendar = ''
+#     # Make call AWS to find the file.
+#     file_name = request.args.get('file_name')
+#     s3 = boto3.resource('s3')
+#     file = s3.Object(S3_BUCKET, file_name)
 
-    # PDF reading
-
-    # calendar return and saved in calendar variable
 
 
-    return jsonify({"calendar": calendar})
+#     # PDF reading
+
+#     # calendar return and saved in calendar variable
+
+
+#     return jsonify({"calendar": calendar})
     
 if __name__ == "__main__":
     app.run(debug=True) # debug=True restarts the server everytime we make a change in our code

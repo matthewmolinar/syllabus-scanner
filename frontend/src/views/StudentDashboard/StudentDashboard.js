@@ -64,7 +64,10 @@ export default function StudentDashboard(props) {
   const [loadout, setLoadout] = React.useState(false);
   const [file, setFile] = React.useState();
 
-  const uploadFile = (e) => {
+
+  // Use this now.
+
+  const calendarifyFiles = (e) => {
     e.preventDefault();
     const formData = new FormData();
     // This sends every file that has been uploaded.
@@ -80,7 +83,7 @@ export default function StudentDashboard(props) {
       }
       )
       .then(res => {
-        console.log(res.data);
+        console.log(res.calendar);
         // Simulating an ics file coming back.
         setLoadout(true);
       })
@@ -99,70 +102,59 @@ export default function StudentDashboard(props) {
     setOpen(false);
   };
 
-  // This is used to detect changes in the input from <UploadArea />
-  // Under Construction. Not sure if needed at the moment. 
-
-  // Maybe run a getSignedRequest on each file submitted.
-  const uploadFileS3 = (e) => {
-    e.preventDefault();
-    for (let i = 1; i < classNum + 1; i++) {
-      let file = document.querySelector(`#file-${i}`)
-      file = file.files[0]
-      // this is basically sending each file and doing the process
-      // on each file. Don't do this at home kids. Use AWS Lambda functions.
+ 
+// Don't use this!!!!!**************
+  // const uploadFileS3 = (e) => {
+  //   e.preventDefault();
+  //   for (let i = 1; i < classNum + 1; i++) {
+  //     let file = document.querySelector(`#file-${i}`)
+  //     file = file.files[0]
+  //     // this is basically sending each file and doing the process
+  //     // on each file. Don't do this at home kids. Use AWS Lambda functions.
 
 
-      // calendarify(file.name)
-      getSignedRequest(file)
-    }
-  };
+  //     
+  //     getSignedRequest(file)
+  //   }
+  // };
 
-  const calendarify = (filename) => {
-    const formData = new FormData();
-    formData.append("file_name", filename)
-    axios
-      .post("/api/pdf", formData)
-      .then(res => {
-        // This needs to be configured to target the download button.
-        document.getElementById("").value = res.calendar
-      })
-  }
+  
 
   // only takes one file.
-  const getSignedRequest = file => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
-    xhr.onreadystatechange = () => {
-      if(xhr.readyState === 4){
-        if(xhr.status === 200){
-          const response = JSON.parse(xhr.responseText);
-          postRequestS3(file, response.data, response.url);
-        }
-        else{
-          alert("Could not get signed URL. Please contact novelicatechnologies.gmail.com with this error.")
-        }
-      }
-    };
-    xhr.send();
-  }
+  // const getSignedRequest = file => {
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
+  //   xhr.onreadystatechange = () => {
+  //     if(xhr.readyState === 4){
+  //       if(xhr.status === 200){
+  //         const response = JSON.parse(xhr.responseText);
+  //         postRequestS3(file, response.data, response.url);
+  //       }
+  //       else{
+  //         alert("Could not get signed URL. Please contact novelicatechnologies.gmail.com with this error.")
+  //       }
+  //     }
+  //   };
+  //   xhr.send();
+  // }
 
-  const postRequestS3 = (file, s3Data, url) => {
-    var postData = new FormData();
-    for(let key in s3Data.fields){
-      postData.append(key, s3Data.fields[key]);
-    }
-    postData.append('file', file);
+  // const postRequestS3 = (file, s3Data, url) => {
+  //   var postData = new FormData();
+  //   for(let key in s3Data.fields){
+  //     postData.append(key, s3Data.fields[key]);
+  //   }
+  //   postData.append('file', file);
     
-    axios.post(s3Data.url, postData)
-    .then( () => {
-      document.getElementById("preview").href = url;
-      setLoadout(true);
-      handleClose()
-    })
-    .catch(error => {
-      console.log(error.response)
-    })
-  }
+  //   axios.post(s3Data.url, postData)
+  //   .then( () => {
+  //     document.getElementById("preview").href = url;
+  //     setLoadout(true);
+  //     handleClose()
+  //   })
+  //   .catch(error => {
+  //     console.log(error.response)
+  //   })
+  // }
 
   
   
@@ -184,7 +176,7 @@ export default function StudentDashboard(props) {
                 id="modal"
               >
                 <Card className={cardclass.modal}>
-                  <form onSubmit={uploadFileS3} id="files_input">
+                  <form onSubmit={calendarifyFiles} id="files_input">
                   <CardBody>
                     <h4 className={classes.cardtitle}>How many classes are you taking?</h4>
                     <CustomDropdown
