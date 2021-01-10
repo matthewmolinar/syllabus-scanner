@@ -11,6 +11,7 @@
     "axios": "^0.21.1",
     "chartist": "^0.10.1",
     "classnames": "2.2.6",
+    "downloadjs": "^1.4.7",
     "history": "4.10.1",
     "moment": "2.26.0",
     "node-sass": "4.14.1",

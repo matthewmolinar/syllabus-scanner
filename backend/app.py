@@ -89,13 +89,13 @@ def removeUser(uid):
 
 
 # ROUTES. 
-@app.route("/<a>")
-def react_routes(a):
-    return app.send_static_file("index.html")
+# @app.route("/<a>")
+# def react_routes(a):
+#     return app.send_static_file("index.html")
 
-@app.route("/")
-def react_index():
-    return app.send_static_file("index.html")
+# @app.route("/")
+# def react_index():
+#     return app.send_static_file("index.html")
     
 class InvalidToken(db.Model):
     __tablename__ = "invalid_tokens"

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 // @material-ui/core
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-dash/core/styles";
-import {Button} from '@material-ui/core';
+import {CircularProgress, Button} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 // @material-ui/icons
 import {CalendarToday, Save} from '@material-ui/icons';
@@ -22,6 +22,9 @@ import UploadArea from 'components/UploadArea/UploadArea';
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 import axios from "axios";
+var download = require("downloadjs");
+
+
 
 const useStyles = makeStyles(styles);
 const newStyles = makeStyles({
@@ -63,9 +66,17 @@ export default function StudentDashboard(props) {
   const [classNum, setClassNum] = React.useState(1);
   const [loadout, setLoadout] = React.useState(false);
   const [file, setFile] = React.useState();
+  const [loading, setLoading] = React.useState(false);
 
 
   // Use this now.
+  const testDownloadFunc = () => {
+    let inputObj = document.querySelector('#file-1')
+    let file = inputObj.files[0]
+    console.log(file);
+    console.log(file instanceof File)
+    download(new Blob([file]), 'calendar.pdf');
+  }
 
   const calendarifyFiles = (e) => {
     e.preventDefault();
@@ -107,6 +118,15 @@ export default function StudentDashboard(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const loadingHandler = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      handleClose()}, 1000);
+    testDownloadFunc();
+  }
 
  
 // Don't use this!!!!!**************
@@ -182,7 +202,7 @@ export default function StudentDashboard(props) {
                 id="modal"
               >
                 <Card className={cardclass.modal}>
-                  <form onSubmit={calendarifyFiles} id="files_input">
+                  <form onSubmit={testDownloadFunc} id="files_input">
                   <CardBody>
                     <h4 className={classes.cardtitle}>How many classes are you taking?</h4>
                     <CustomDropdown
@@ -200,7 +220,15 @@ export default function StudentDashboard(props) {
                     />
                   </CardBody>
                   <CardFooter>
-                    <Button type="submit" variant="contained" color="secondary">Generate Calendar</Button>
+                    <Button 
+                      type="submit"
+                      variant="contained"
+                      color="secondary"
+                      onClick={loadingHandler}
+                    >
+                      {loading && <CircularProgress size={14} />}
+                      {!loading && 'Generate Calendar'}
+                      </Button>
                     <Button type="button" onClick={handleClose} className={cardclass.modalClose}>Close</Button>
                   </CardFooter>
                   </form>
