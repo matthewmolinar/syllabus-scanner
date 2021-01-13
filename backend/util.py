@@ -56,11 +56,8 @@ def get_xu_events():
 def merge_into_cal(event_mat):
     # Create calander
     cal = Calendar()
-    print(event_mat)
-    print('------')
     for c in event_mat:
         for e in c:
-            print(e)
             event = Event()
             event.add('summary', e[0])
             event.add('dtstart', e[1])
