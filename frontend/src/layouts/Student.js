@@ -8,7 +8,7 @@ import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 /// @material-ui/core components
 
-import { makeStyles } from '@material-dash/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 // core components
 import StudentNavbar from 'components/StudentNavbars/StudentNavbar.js';

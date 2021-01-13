@@ -1,26 +1,21 @@
 import React, { useEffect } from "react";
 // @material-ui/core
-import { makeStyles, createMuiTheme, ThemeProvider } from "@material-dash/core/styles";
+import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {CircularProgress, Button} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 // @material-ui/icons
 import {CalendarToday, Save} from '@material-ui/icons';
-import AccessTime from "@material-dash/icons/AccessTime";
+import AccessTime from "@material-ui/icons/AccessTime";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import Danger from 'components/Typography/Danger.js';
-import CustomDialog from 'components/CustomDialog/CustomDialog.js';
 import CustomModal from 'components/CustomModal/CustomModal.js';
 import CustomDropdown from 'components/CustomDropdown/CustomDropdown.js';
 import UploadArea from 'components/UploadArea/UploadArea';
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 import axios from "axios";
 var download = require("downloadjs");
 
@@ -60,25 +55,14 @@ const newStyles = makeStyles({
 
 export default function StudentDashboard(props) {
   const classes = useStyles();
-  // This was named cardclass, but now it handles a lot of things that I built myself.
+  // This was named cardclass, but now it handles a lot of things.
   const cardclass = newStyles();
   const [open, setOpen] = React.useState(false)
   const [classNum, setClassNum] = React.useState(1);
   const [loadout, setLoadout] = React.useState(false);
-  const [file, setFile] = React.useState();
   const [loading, setLoading] = React.useState(false);
 
-
-  // Use this now.
-  const testDownloadFunc = () => {
-    let inputObj = document.querySelector('#file-1')
-    let file = inputObj.files[0]
-    console.log(file);
-    console.log(file instanceof File)
-    download(new Blob([file]), 'calendar.pdf');
-  }
-
-  const calendarifyFiles = (e) => {
+  const calendarify = (e) => {
     e.preventDefault();
     const formData = new FormData();
     // This sends every file that has been uploaded.
@@ -94,8 +78,7 @@ export default function StudentDashboard(props) {
       }
       )
       .then(res => {
-        console.log(res.calendar); // Checking to see if the file came through for debugging purposes.
-
+        download(new Blob([res.data.calendar]), 'calender.ics');
         setLoadout(true); // This shows the loadout, which is a more simple approach. However, this 
         // might not be the way you wish to go, if you want to download as soon as the cal comes
         // back, you'll need to initiate an event of some type that downloads the file that returned
@@ -107,7 +90,6 @@ export default function StudentDashboard(props) {
       .catch(err => console.log(err.data));
     // It's important to handleClose() HERE, as opposed to onClick with the Generate button.
     // If you close the modal onClick with the button, there will be no form for axios to send.
-    handleClose()
   };
 
   const handleOpen = () => {
@@ -124,8 +106,8 @@ export default function StudentDashboard(props) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      handleClose()}, 1000);
-    testDownloadFunc();
+      handleClose()}, 500);
+    calendarify(e);
   }
 
  
@@ -202,7 +184,7 @@ export default function StudentDashboard(props) {
                 id="modal"
               >
                 <Card className={cardclass.modal}>
-                  <form onSubmit={testDownloadFunc} id="files_input">
+                  <form id="files_input">
                   <CardBody>
                     <h4 className={classes.cardtitle}>How many classes are you taking?</h4>
                     <CustomDropdown

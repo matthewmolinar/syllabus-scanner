@@ -10,12 +10,15 @@ import security
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, \
     jwt_refresh_token_required, create_refresh_token, get_raw_jwt
 
+# Local import
+import util
+
 # Defining the app itself.
 app = Flask(__name__, static_folder="build", static_url_path="/")
 
 # Configuring the upload functionality
-# If you add a file larger than 1MB, the application will refuse it.
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+# If you add a file larger than 1MB, the application will refuse it. Changed to 16MB.
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 # Making sure nobody tries to hack us lol.
 app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx']
 # This is where we will be keeping syllabi for now in the backend.
@@ -89,13 +92,13 @@ def removeUser(uid):
 
 
 # ROUTES. 
-# @app.route("/<a>")
-# def react_routes(a):
-#     return app.send_static_file("index.html")
+@app.route("/<a>")
+def react_routes(a):
+    return app.send_static_file("index.html")
 
-# @app.route("/")
-# def react_index():
-#     return app.send_static_file("index.html")
+@app.route("/")
+def react_index():
+    return app.send_static_file("index.html")
     
 class InvalidToken(db.Model):
     __tablename__ = "invalid_tokens"
@@ -223,22 +226,34 @@ def upload_file():
                 file_ext = os.path.splitext(filename)[1]
                 if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                     return jsonify({"success": False})
-                # CALEB: Get the text for the file here
-                    # uploaded_file is the current file
+                
+                # Get text
+                if file_ext == '.pdf':
+                    text = util.pdf_to_txt(uploaded_file)
+                elif file_ext == '.docx':
+                    text = util.docx_to_txt(uploaded_file)
+                else:
+                    raise ValueError('File type not supported.')
+                    
+                print(text)
 
-                # Get the professor's name, and find the calendar for that class
+                # Determine prof 
+                # Get events and add to all_events 
+                all_events = []
+                profs = ['barr', 'newton', 'xu'] # add here as we get syllabi
+                for prof in profs:
+                    if prof in text:
+                        all_events.append(eval('util.get_' + prof + '_events()'))
 
-                # CALEB: Get the ics file
-                calendar = 'add to the big calendar'
+        # Merge events into cal
+        calendar = util.merge_into_cal(all_events) #this is a string
 
 
-                #un-comment this out if you want to return the file itself for button download testing
-                # return jsonify({"calendar": uploaded_file})
-        calendar = 'or maybe merge a bunch of different calendars into one'
+        # un-comment this out if you want to return the file itself for button download testing
+        # return jsonify({"calendar": uploaded_file})
         return jsonify({"calendar": calendar})
         # un-comment this if you want to do local testing. It saves the file.
         # uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-        return jsonify({"success": True})
     except Exception as e:
         return jsonify({"error": e})
 

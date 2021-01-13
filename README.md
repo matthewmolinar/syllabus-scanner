@@ -95,10 +95,10 @@ After this, open up your code editor on your machine and make these changes:
   <form onSubmit={uploadFile} id="files_input">
   ```
  3. From there, you will need to delete the ``` material-dash ``` folder from your project, and you will need to change
- every instance of ``` @material-dash ``` in the project. Here is the best way to do it:
+ every instance of ``` @material-ui ``` in the project. Here is the best way to do it:
   ```
   1. Type this command: "CMD + SHIFT + F"
-  2. Type @material-dash in the top line
+  2. Type @material-ui in the top line
   3. Click the down arrow next to the Search bar
   4. Type @material-ui into the Replace bar
   5. Finally, click the Replace All button next to the Replace bar

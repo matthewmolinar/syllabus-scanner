@@ -2,13 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from "@material-dash/core/styles";
-import AppBar from "@material-dash/core/AppBar";
-import Toolbar from "@material-dash/core/Toolbar";
-import IconButton from "@material-dash/core/IconButton";
-import Hidden from "@material-dash/core/Hidden";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Hidden from "@material-ui/core/Hidden";
 
-import Menu from "@material-dash/icons/Menu";
+import Menu from "@material-ui/icons/Menu";
 
 import StudentNavbarLinks from './StudentNavbarLinks.js';
 import Button from 'components/CustomButtons/StudentButton.js'

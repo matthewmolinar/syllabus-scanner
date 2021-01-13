@@ -1,19 +1,19 @@
 import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
-import { makeStyles } from "@material-dash/core/styles";
-import MenuItem from "@material-dash/core/MenuItem";
-import MenuList from "@material-dash/core/MenuList";
-import Grow from "@material-dash/core/Grow";
-import Paper from "@material-dash/core/Paper";
-import ClickAwayListener from "@material-dash/core/ClickAwayListener";
-import Hidden from "@material-dash/core/Hidden";
-import Poppers from "@material-dash/core/Popper";
-import Divider from "@material-dash/core/Divider";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Hidden from "@material-ui/core/Hidden";
+import Poppers from "@material-ui/core/Popper";
+import Divider from "@material-ui/core/Divider";
 // @material-ui/icons
-import Person from "@material-dash/icons/Person";
-import Notifications from "@material-dash/icons/Notifications";
-import Dashboard from "@material-dash/icons/Dashboard";
+import Person from "@material-ui/icons/Person";
+import Notifications from "@material-ui/icons/Notifications";
+import Dashboard from "@material-ui/icons/Dashboard";
 // core components
 import Button from "components/CustomButtons/Button.js";
 import {logout} from 'components/LoginHandler/LoginHandler.js';
