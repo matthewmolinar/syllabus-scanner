@@ -28,7 +28,7 @@ def docx_to_txt(file):
 # prof_cal functions, will add more as we get more profs
 def get_barr_events():
     # hardcoding events 
-    # summary, start, end, description 
+    # summary, start, end, description #FIXME: get events to be all day events.
     event_mat = [['Co-Curricular Workshop 1', datetime(2021,2,1,0,0,0,tzinfo=pytz.utc), datetime(2021,2,1,0,0,0,tzinfo=pytz.utc), 'By this date all students must have had a conversation with Dr. Barr on their potential research projects.'],
                  ['Honors Project Proposal Due', datetime(2021,2,7,0,0,0,tzinfo=pytz.utc), datetime(2021,2,7,0,0,0,tzinfo=pytz.utc), ''],
                  ['Dr. Barr Meeting', datetime(2021,2,8,0,0,0,tzinfo=pytz.utc), datetime(2021,2,8,0,0,0,tzinfo=pytz.utc), 'Must have meet with Dr. Barr at or before this day.'],
