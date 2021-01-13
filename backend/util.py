@@ -43,13 +43,13 @@ def get_barr_events():
 def get_newton_events():
     # hardcoding events 
     # summary, start, end, description 
-    event_mat = ['testing', datetime(2021,1,10,18,0,0,tzinfo=pytz.utc), datetime(2021,1,10,19,0,0,tzinfo=pytz.utc), 'a description']
+    event_mat = [['testing', datetime(2021,1,10,18,0,0,tzinfo=pytz.utc), datetime(2021,1,10,19,0,0,tzinfo=pytz.utc), 'a description']]
     return event_mat
 
 def get_xu_events():
     # hardcoding events 
     # summary, start, end, description 
-    event_mat = ['testing', datetime(2021,1,10,18,0,0,tzinfo=pytz.utc), datetime(2021,1,10,19,0,0,tzinfo=pytz.utc), 'a description']
+    event_mat = [['testing', datetime(2021,1,10,18,0,0,tzinfo=pytz.utc), datetime(2021,1,10,19,0,0,tzinfo=pytz.utc), 'a description']]
     return event_mat
 
 # returns a cal file
