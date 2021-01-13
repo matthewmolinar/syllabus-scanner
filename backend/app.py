@@ -243,7 +243,6 @@ def upload_file():
                     if prof in text:
                         all_events.append(eval('util.get_' + prof + '_events()'))
 
-        print(text)
         # Merge events into cal
         calendar = util.merge_into_cal(all_events) #this is a string
 
