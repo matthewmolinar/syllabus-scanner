@@ -13,7 +13,7 @@ def pdf_to_txt(file):
     for i in range(pdfReader.numPages):
         page = pdfReader.getPage(i)
         text += page.extractText()
-    return text
+    return text.lower()
 
 def docx_to_txt(file):
     print(type(file))
@@ -29,7 +29,15 @@ def docx_to_txt(file):
 def get_barr_events():
     # hardcoding events 
     # summary, start, end, description 
-    event_mat = ['testing', datetime(2021,1,10,15,0,0,tzinfo=pytz.utc), datetime(2021,1,10,17,0,0,tzinfo=pytz.utc), 'a description']
+    event_mat = [['Co-Curricular Workshop 1', datetime(2021,2,1,0,0,0,tzinfo=pytz.utc), datetime(2021,2,1,0,0,0,tzinfo=pytz.utc), 'By this date all students must have had a conversation with Dr. Barr on their potential research projects.'],
+                 ['Honors Project Proposal Due', datetime(2021,2,7,0,0,0,tzinfo=pytz.utc), datetime(2021,2,7,0,0,0,tzinfo=pytz.utc), ''],
+                 ['Dr. Barr Meeting', datetime(2021,2,8,0,0,0,tzinfo=pytz.utc), datetime(2021,2,8,0,0,0,tzinfo=pytz.utc), 'Must have meet with Dr. Barr at or before this day.'],
+                 ['Reflective Paper Due', datetime(2021,2,19,0,0,0,tzinfo=pytz.utc), datetime(2021,2,19,0,0,0,tzinfo=pytz.utc), ''],
+                 ['Working Annotated Bibliography Due', datetime(2021,3,26,0,0,0,tzinfo=pytz.utc), datetime(2021,3,26,0,0,0,tzinfo=pytz.utc), ''],
+                 ['Last day to drop course', datetime(2021,4,2,0,0,0,tzinfo=pytz.utc), datetime(2021,4,2,0,0,0,tzinfo=pytz.utc), ''],
+                 ['Rough Draft Reading', datetime(2021,4,19,0,0,0,tzinfo=pytz.utc), datetime(2021,4,19,0,0,0,tzinfo=pytz.utc), ''],
+                 ['RESEARCH PAPER DUE', datetime(2021,5,2,0,0,0,tzinfo=pytz.utc), datetime(2021,5,2,0,0,0,tzinfo=pytz.utc), ''],
+                 ['FINAL EXAM', datetime(2021,5,7,11,0,0,tzinfo=pytz.utc), datetime(2021,5,7,12,50,0,tzinfo=pytz.utc), '']]
     return event_mat
 
 def get_newton_events():
@@ -48,13 +56,17 @@ def get_xu_events():
 def merge_into_cal(event_mat):
     # Create calander
     cal = Calendar()
-    for e in event_mat:
-        event = Event()
-        event.add('summary', e[0])
-        event.add('dtstart', e[1])
-        event.add('dtend', e[2])
-        event.add('description', e[3])
-        cal.add_component(event)
-    cal = cal.to_ical().decode('utf-8')
+    print(event_mat)
+    print('------')
+    for c in event_mat:
+        for e in c:
+            print(e)
+            event = Event()
+            event.add('summary', e[0])
+            event.add('dtstart', e[1])
+            event.add('dtend', e[2])
+            event.add('description', e[3])
+            cal.add_component(event)
+        cal = cal.to_ical().decode('utf-8')
 
     return cal # this is a string

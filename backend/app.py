@@ -234,8 +234,6 @@ def upload_file():
                     text = util.docx_to_txt(uploaded_file)
                 else:
                     raise ValueError('File type not supported.')
-                    
-                print(text)
 
                 # Determine prof 
                 # Get events and add to all_events 
@@ -245,6 +243,7 @@ def upload_file():
                     if prof in text:
                         all_events.append(eval('util.get_' + prof + '_events()'))
 
+        print(text)
         # Merge events into cal
         calendar = util.merge_into_cal(all_events) #this is a string
 
